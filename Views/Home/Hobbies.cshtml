@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Welcome!";
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <h3 class="navbar-brand" >Hobby Hub!</h3>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" href="/hobby">Hobbies <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" href="newhobby">Add Hobby <span class="sr-only">(current)</span></a>
+        </div>
+    </div>
+</nav>
+<div>
+@model List<Hobbies>
+    @foreach (Hobbies hobby in Model)
+        {
+            <div class="jumbotron">
+                <h1 class="display-4">@hobby.Title</h1>
+                <p class="lead">Description:@hobby.Description</p>
+                <p>@hobby.Creator.FirstName @hobby.Creator.LastName<p>
+                @if(hobby.JoiningUser.Any( a => a.UserId == ViewBag.User.UserId ))
+                {
+                    <td><button class="btn btn-default"><a href="/cancel/@hobby.HobbyId/@ViewBag.User.UserId">Leave</a></button></td>
+                }
+                    else
+                {
+                    <td><button class="btn btn-default"><a href="/join/@hobby.HobbyId/@ViewBag.User.UserId">Join</a></button></td>
+                }
+                <button class="btn btn-default"><a href="/edit/@hobby.HobbyId">Edit Hobby</a></button>
+            </div>
+        }
+</div>
